@@ -1933,3 +1933,308 @@ table.data-table tr:hover td { background: #f1f6fd !important; }
     font-size: 19px;
   }
 }
+
+/* ==========================================================
+   SH PMS - Dashboard Analytics Refinement
+   Phase 3
+   ========================================================== */
+
+.dashboard-analytics {
+  margin-top: 16px;
+}
+
+/* Section headings */
+.analytics-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 2px 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #dce4ed;
+}
+
+.analytics-section-head h3,
+.analytics-panel-head h3,
+.dashboard-chart-head h3 {
+  margin: 2px 0 0;
+  color: #13233a;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.analytics-kicker {
+  display: block;
+  color: #1f5fc4;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.analytics-period {
+  color: #7b8a9d;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* Executive summary */
+.exec-summary {
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  background: #ffffff;
+  border: 1px solid #dce4ed;
+  border-left: 4px solid #1f5fc4;
+  box-shadow: var(--shadow-sm);
+}
+
+.exec-summary-body {
+  line-height: 1.55;
+}
+
+.exec-summary-right {
+  padding-left: 20px;
+  border-left: 1px solid #e5ebf2;
+}
+
+.exec-summary-big {
+  font-size: 36px;
+  letter-spacing: -0.035em;
+}
+
+/* Lower KPI cards */
+.exec-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.exec-kpi-card {
+  min-height: 108px;
+  padding: 15px 16px 14px;
+  background: #ffffff;
+  border-color: #dce4ed;
+}
+
+.exec-kpi-card:hover {
+  transform: translateY(-1px);
+}
+
+.exec-kpi-top {
+  margin-bottom: 8px;
+}
+
+.exec-kpi-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f2f6fb;
+  color: #1f5fc4;
+}
+
+.exec-kpi-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.exec-kpi-label {
+  font-size: 10px;
+}
+
+.exec-kpi-val {
+  font-size: 24px;
+}
+
+/* Salesperson progress */
+.sp-circle-grid {
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sp-circle-card {
+  padding: 17px 12px 14px;
+  border-color: #dce4ed;
+}
+
+.sp-circle-card:hover {
+  transform: translateY(-1px);
+}
+
+/* Comparison / insights */
+.analytics-panel {
+  margin-top: 16px;
+  border-color: #dce4ed;
+  padding: 16px 18px;
+}
+
+.analytics-panel-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.analytics-panel-head p {
+  margin: 3px 0 0;
+  color: #7a899b;
+  font-size: 11.5px;
+}
+
+.analytics-panel .data-table th {
+  background: #f7f9fc;
+  color: #43546a;
+}
+
+.analytics-panel .data-table td {
+  border-color: #edf1f6;
+}
+
+.analytics-insights-panel .insight-item {
+  background: #f8fafd;
+  border-color: #e4eaf1;
+}
+
+/* Project / monthly charts */
+#project-status-section {
+  margin-top: 16px;
+}
+
+.dashboard-chart-panel {
+  padding: 16px 18px;
+  border-color: #dce4ed;
+}
+
+.dashboard-chart-head {
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.dashboard-chart-sub {
+  margin-top: 4px;
+  color: #7a899b;
+  font-size: 11.5px;
+}
+
+.dashboard-chart-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.dash-expand-btn {
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid #d7e0ea;
+  border-radius: 8px;
+  background: #f8fafd;
+  color: #40536b;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dash-expand-btn:hover {
+  background: #edf3fc;
+  border-color: #bdd0eb;
+  color: #1f5fc4;
+}
+
+.dashboard-chart-canvas {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  margin-top: 10px;
+}
+
+.dashboard-chart-meta {
+  margin-top: 9px;
+  color: #8290a2;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+/* Put the two monthly charts side-by-side on wide displays */
+#monthly-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+#monthly-section > .panel {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.monthly-chart-holder {
+  min-height: 255px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .exec-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-circle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #monthly-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .exec-kpi-grid,
+  .sp-circle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exec-summary {
+    align-items: flex-start;
+  }
+
+  .exec-summary-right {
+    width: 100%;
+    padding: 12px 0 0;
+    border-left: none;
+    border-top: 1px solid #e5ebf2;
+    text-align: left;
+  }
+
+  .analytics-section-head,
+  .dashboard-chart-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-chart-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .dashboard-chart-canvas {
+    height: 290px;
+  }
+}
+
+
+/* Phase 3 final spacing refinement */
+#monthly-section {
+  align-items: start;
+}
+
+.monthly-chart-holder {
+  min-height: 215px;
+}
+
+#monthly-section .dashboard-chart-panel {
+  align-self: start;
+}
