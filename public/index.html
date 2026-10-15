@@ -10,7 +10,7 @@
 <link rel="icon" type="image/x-icon" href="/img/icons/app-icon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
     </div>
     <h1>Sigma Height PMS</h1>
     <p class="sub">Project Management System</p>
-    <form id="login-form" action="#" method="post">
+    <form id="login-form" onsubmit="event.preventDefault();">
       <label>Username</label>
       <input type="text" id="login-username" autocomplete="username" required>
       <label>Password</label>
@@ -40,7 +40,7 @@
 <div id="app-shell" class="app-shell hidden">
   <aside class="sidebar" id="app-sidebar" aria-label="Main navigation">
     <div class="brand" id="sidebar-logo">
-      <img src="/img/icons/apple-touch-icon.png" alt="Sigma Height Elevators LLC" class="company-logo company-logo-sidebar brand-mark">
+      <img src="/img/logo.png" alt="Sigma Height Elevators LLC" class="company-logo company-logo-sidebar brand-mark">
       <div class="brand-text">
         <div class="brand-name">Sigma Height PMS</div>
         <div class="brand-subtitle">Elevator Management System</div>
@@ -108,3 +108,4 @@
 <script src="/js/app.js?v=20261003b"></script>
 </body>
 </html>
+

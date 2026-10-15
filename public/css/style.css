@@ -1598,3 +1598,153 @@ table.data-table tr:hover td { background: #f1f6fd !important; }
 @media print {
   .sidebar, .topbar { display: none !important; }
 }
+
+/* ==========================================================
+   SH PMS - Corporate Dark Sidebar Refresh
+   TEST branch: feature/dashboard-ui-refresh
+   ========================================================== */
+
+:root {
+  --sh-sidebar-bg: #081828;
+  --sh-sidebar-bg-soft: #10283d;
+  --sh-sidebar-border: rgba(255,255,255,0.08);
+  --sh-sidebar-text: #c9d6e2;
+  --sh-sidebar-muted: #71869a;
+  --sh-sidebar-hover: rgba(255,255,255,0.065);
+  --sh-sidebar-active: rgba(54,194,180,0.12);
+  --sh-sidebar-accent: #36c2b4;
+}
+
+/* Main sidebar */
+.sidebar {
+  background:
+    linear-gradient(180deg, #071624 0%, #0b2032 52%, #081827 100%);
+  color: var(--sh-sidebar-text);
+  border-right: 1px solid var(--sh-sidebar-border);
+  box-shadow: 8px 0 28px rgba(3, 13, 23, 0.10);
+}
+
+/* Brand area */
+.brand,
+.brand#sidebar-logo {
+  border-bottom: 1px solid var(--sh-sidebar-border);
+  min-height: 68px;
+  padding: 13px 15px;
+}
+
+.company-logo-sidebar,
+.brand-mark {
+  width: 40px;
+  max-width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.brand-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  color: #8094a8;
+  font-size: 10.5px;
+}
+
+/* Navigation */
+.sidebar nav {
+  padding: 10px 10px 14px;
+  scrollbar-color: #28435a transparent;
+}
+
+.nav-group {
+  color: #607a91;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  padding: 15px 10px 6px;
+}
+
+.nav-item {
+  min-height: 43px;
+  gap: 10px;
+  padding: 6px 8px;
+  margin: 2px 0;
+  color: var(--sh-sidebar-text);
+  border-radius: 9px;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.nav-item:hover {
+  background: var(--sh-sidebar-hover);
+  color: #ffffff;
+  transform: translateX(1px);
+}
+
+.nav-item.active {
+  background: var(--sh-sidebar-active);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-item.active::before {
+  left: -10px;
+  top: 7px;
+  bottom: 7px;
+  width: 3px;
+  background: var(--sh-sidebar-accent);
+  box-shadow: 0 0 10px rgba(54,194,180,0.35);
+}
+
+/* Icon tiles */
+.nav-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.055);
+  color: var(--nav-accent, #60a5fa);
+}
+
+.nav-item:hover .nav-icon-wrap {
+  background: rgba(255,255,255,0.09);
+}
+
+.nav-item.active .nav-icon-wrap {
+  background: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+
+.nav-chevron {
+  color: #8297aa;
+}
+
+/* User/footer area */
+.sidebar-footer {
+  border-top: 1px solid var(--sh-sidebar-border);
+  background: rgba(0,0,0,0.08);
+}
+
+#current-user {
+  color: #8296a9;
+}
+
+#current-user b {
+  color: #e7eef5;
+}
+
+/* Collapsed sidebar separators */
+.app-shell.sidebar-collapsed .nav-group {
+  border-top-color: var(--sh-sidebar-border);
+}
+
+/* Keep keyboard navigation visible */
+.sidebar .nav-item:focus-visible {
+  outline: 2px solid var(--sh-sidebar-accent);
+  outline-offset: 2px;
+}
