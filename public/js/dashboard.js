@@ -889,6 +889,10 @@ async function renderDashboard(root) {
     { icon: 'truck',      tone: '#7c3aed', val: num(d.units_delivered_2026), label: 'Units Delivered 2026', sub: `${num(d.units_in_production_2026)} in production` },
     { icon: 'key-round',  tone: '#d9730d', val: num(d.handover_units_ytd), label: 'Handover Units YTD', sub: `${num(d.handover_projects_ytd)} project(s)` },
   ];
+const refreshedAt = new Date().toLocaleTimeString('en-US', {
+  hour: '2-digit',
+  minute: '2-digit'
+});
   const QA = [
     { key: 'quotations', icon: 'file-plus', label: 'Add Quotation', btn: 'qf-add', before: () => { QuotationsState.view = 'register'; } },
     { key: 'contracts', icon: 'file-signature', label: 'New Contract', btn: 'cf-add', before: () => { ContractsState.sub = 'list'; } },
@@ -897,10 +901,19 @@ async function renderDashboard(root) {
     { key: 'reports', icon: 'bar-chart-3', label: 'View Reports' },
     { key: 'backup', icon: 'database-backup', label: 'System Backup' },
   ].filter(a => can(a.key));
-
-  root.innerHTML =
-    '<div class="dash-kpi-grid">' + kpis.map((k, i) =>
-      `<div class="dash-kpi ${k.go ? 'clickable' : ''}" data-kpi="${i}" style="--kpi-tone:${k.tone}">
+root.innerHTML =
+  `<div class="dash-overview-head">
+     <div>
+       <div class="dash-overview-eyebrow">MANAGEMENT OVERVIEW</div>
+       <div class="dash-overview-title">Business Performance</div>
+       <div class="dash-overview-sub">Sales, contracts, production, delivery and handover performance for 2026</div>
+     </div>
+     <div class="dash-refresh">
+       <i data-lucide="refresh-cw" aria-hidden="true"></i>
+       <span>Refreshed ${esc(refreshedAt)}</span>
+     </div>
+   </div>` +
+  '<div class="dash-kpi-grid">' + kpis.map((k, i) =>      `<div class="dash-kpi ${k.go ? 'clickable' : ''}" data-kpi="${i}" style="--kpi-tone:${k.tone}">
          <span class="dash-kpi-icon"><i data-lucide="${k.icon}" aria-hidden="true"></i></span>
          <div class="dash-kpi-body"><div class="dash-kpi-val">${k.val}</div><div class="dash-kpi-label">${esc(k.label)}</div>
          ${k.sub ? `<div class="dash-kpi-sub">${esc(k.sub)}</div>` : ''}</div></div>`).join('') + '</div>' +
