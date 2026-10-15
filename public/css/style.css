@@ -1454,7 +1454,17 @@ body { background: var(--color-bg); }
   padding: 14px 16px; border-bottom: 1px solid var(--color-border-light);
   min-height: var(--topbar-h);
 }
-.company-logo-sidebar, .brand-mark { width: 36px; max-width: 36px; height: 36px; object-fit: contain; margin: 0; flex-shrink: 0; border-radius: 9px; }
+/* Final sidebar branding refinement */
+.company-logo-sidebar.brand-mark {
+  width: 44px;
+  max-width: 44px;
+  height: 44px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 7px;
+  background: transparent;
+  transform: none;
+}
 .brand-text { min-width: 0; }
 .brand-name { font-size: 14px; font-weight: 700; color: var(--color-heading); text-align: left; letter-spacing: -0.01em;
   text-transform: none; margin: 0; white-space: nowrap; }
@@ -1598,3 +1608,644 @@ table.data-table tr:hover td { background: #f1f6fd !important; }
 @media print {
   .sidebar, .topbar { display: none !important; }
 }
+
+/* ==========================================================
+   SH PMS - Corporate Dark Sidebar Refresh
+   TEST branch: feature/dashboard-ui-refresh
+   ========================================================== */
+
+:root {
+  --sh-sidebar-bg: #081828;
+  --sh-sidebar-bg-soft: #10283d;
+  --sh-sidebar-border: rgba(255,255,255,0.08);
+  --sh-sidebar-text: #c9d6e2;
+  --sh-sidebar-muted: #71869a;
+  --sh-sidebar-hover: rgba(255,255,255,0.065);
+  --sh-sidebar-active: rgba(54,194,180,0.12);
+  --sh-sidebar-accent: #36c2b4;
+}
+
+/* Main sidebar */
+.sidebar {
+  background:
+    linear-gradient(180deg, #071624 0%, #0b2032 52%, #081827 100%);
+  color: var(--sh-sidebar-text);
+  border-right: 1px solid var(--sh-sidebar-border);
+  box-shadow: 8px 0 28px rgba(3, 13, 23, 0.10);
+}
+
+/* Brand area */
+.brand,
+.brand#sidebar-logo {
+  border-bottom: 1px solid var(--sh-sidebar-border);
+  min-height: 68px;
+  padding: 13px 15px;
+}
+
+.company-logo-sidebar,
+.brand-mark {
+  width: 40px;
+  max-width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.brand-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  color: #8094a8;
+  font-size: 10.5px;
+}
+
+/* Navigation */
+.sidebar nav {
+  padding: 10px 10px 14px;
+  scrollbar-color: #28435a transparent;
+}
+
+.nav-group {
+  color: #607a91;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  padding: 15px 10px 6px;
+}
+
+.nav-item {
+  min-height: 43px;
+  gap: 10px;
+  padding: 6px 8px;
+  margin: 2px 0;
+  color: var(--sh-sidebar-text);
+  border-radius: 9px;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.nav-item:hover {
+  background: var(--sh-sidebar-hover);
+  color: #ffffff;
+  transform: translateX(1px);
+}
+
+.nav-item.active {
+  background: var(--sh-sidebar-active);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-item.active::before {
+  left: -10px;
+  top: 7px;
+  bottom: 7px;
+  width: 3px;
+  background: var(--sh-sidebar-accent);
+  box-shadow: 0 0 10px rgba(54,194,180,0.35);
+}
+
+/* Icon tiles */
+.nav-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.055);
+  color: var(--nav-accent, #60a5fa);
+}
+
+.nav-item:hover .nav-icon-wrap {
+  background: rgba(255,255,255,0.09);
+}
+
+.nav-item.active .nav-icon-wrap {
+  background: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+
+.nav-chevron {
+  color: #8297aa;
+}
+
+/* User/footer area */
+.sidebar-footer {
+  border-top: 1px solid var(--sh-sidebar-border);
+  background: rgba(0,0,0,0.08);
+}
+
+#current-user {
+  color: #8296a9;
+}
+
+#current-user b {
+  color: #e7eef5;
+}
+
+/* Collapsed sidebar separators */
+.app-shell.sidebar-collapsed .nav-group {
+  border-top-color: var(--sh-sidebar-border);
+}
+
+/* Keep keyboard navigation visible */
+.sidebar .nav-item:focus-visible {
+  outline: 2px solid var(--sh-sidebar-accent);
+  outline-offset: 2px;
+}
+/* ==========================================================
+   SH PMS - Executive Dashboard Refinement
+   Phase 2
+   ========================================================== */
+
+.dash-overview-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 2px 2px 16px;
+}
+
+.dash-overview-eyebrow {
+  margin-bottom: 3px;
+  color: #1f5fc4;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.dash-overview-title {
+  color: #10233c;
+  font-size: 22px;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.dash-overview-sub {
+  margin-top: 4px;
+  color: #718096;
+  font-size: 12px;
+}
+
+.dash-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid #dde5ee;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.7);
+  color: #718096;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.dash-refresh svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* KPI cards */
+.dash-kpi-grid {
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.dash-kpi {
+  position: relative;
+  min-height: 92px;
+  padding: 15px 15px;
+  border-color: #dce4ed;
+  overflow: hidden;
+}
+
+.dash-kpi::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--kpi-tone);
+  opacity: 0.75;
+}
+
+.dash-kpi-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.dash-kpi-val {
+  font-size: 25px;
+  font-weight: 750;
+  color: #0f2138;
+}
+
+.dash-kpi-label {
+  color: #33465f;
+  font-weight: 650;
+}
+
+.dash-kpi-sub {
+  color: #718096;
+}
+
+/* Quick actions */
+.dash-qa {
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+
+.dash-qa-btn {
+  min-height: 40px;
+  background: #fbfcfe;
+}
+
+.dash-qa-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Alerts + activity */
+.dash-two-col {
+  align-items: start;
+  gap: 14px;
+}
+
+.dash-card {
+  border-color: #dce4ed;
+}
+
+.dash-two-col .dash-card {
+  margin-bottom: 14px;
+}
+
+.dash-li {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.dash-li-title {
+  color: #223750;
+}
+
+.dash-li-meta {
+  color: #8290a2;
+}
+
+/* Cleaner titles */
+.dash-card-title {
+  font-size: 13px;
+  letter-spacing: -0.005em;
+}
+
+.dash-link {
+  padding: 4px 7px;
+  border-radius: 6px;
+}
+
+.dash-link:hover {
+  background: var(--color-primary-light);
+}
+
+/* Laptop */
+@media (max-width: 1450px) {
+  .dash-kpi-grid {
+    grid-template-columns: repeat(3, minmax(190px, 1fr));
+  }
+}
+
+/* Tablet / narrow */
+@media (max-width: 900px) {
+  .dash-overview-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dash-kpi-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .dash-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-overview-title {
+    font-size: 19px;
+  }
+}
+
+/* ==========================================================
+   SH PMS - Dashboard Analytics Refinement
+   Phase 3
+   ========================================================== */
+
+.dashboard-analytics {
+  margin-top: 16px;
+}
+
+/* Section headings */
+.analytics-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 2px 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #dce4ed;
+}
+
+.analytics-section-head h3,
+.analytics-panel-head h3,
+.dashboard-chart-head h3 {
+  margin: 2px 0 0;
+  color: #13233a;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.analytics-kicker {
+  display: block;
+  color: #1f5fc4;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.analytics-period {
+  color: #7b8a9d;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* Executive summary */
+.exec-summary {
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  background: #ffffff;
+  border: 1px solid #dce4ed;
+  border-left: 4px solid #1f5fc4;
+  box-shadow: var(--shadow-sm);
+}
+
+.exec-summary-body {
+  line-height: 1.55;
+}
+
+.exec-summary-right {
+  padding-left: 20px;
+  border-left: 1px solid #e5ebf2;
+}
+
+.exec-summary-big {
+  font-size: 36px;
+  letter-spacing: -0.035em;
+}
+
+/* Lower KPI cards */
+.exec-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.exec-kpi-card {
+  min-height: 108px;
+  padding: 15px 16px 14px;
+  background: #ffffff;
+  border-color: #dce4ed;
+}
+
+.exec-kpi-card:hover {
+  transform: translateY(-1px);
+}
+
+.exec-kpi-top {
+  margin-bottom: 8px;
+}
+
+.exec-kpi-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f2f6fb;
+  color: #1f5fc4;
+}
+
+.exec-kpi-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.exec-kpi-label {
+  font-size: 10px;
+}
+
+.exec-kpi-val {
+  font-size: 24px;
+}
+
+/* Salesperson progress */
+.sp-circle-grid {
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sp-circle-card {
+  padding: 17px 12px 14px;
+  border-color: #dce4ed;
+}
+
+.sp-circle-card:hover {
+  transform: translateY(-1px);
+}
+
+/* Comparison / insights */
+.analytics-panel {
+  margin-top: 16px;
+  border-color: #dce4ed;
+  padding: 16px 18px;
+}
+
+.analytics-panel-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.analytics-panel-head p {
+  margin: 3px 0 0;
+  color: #7a899b;
+  font-size: 11.5px;
+}
+
+.analytics-panel .data-table th {
+  background: #f7f9fc;
+  color: #43546a;
+}
+
+.analytics-panel .data-table td {
+  border-color: #edf1f6;
+}
+
+.analytics-insights-panel .insight-item {
+  background: #f8fafd;
+  border-color: #e4eaf1;
+}
+
+/* Project / monthly charts */
+#project-status-section {
+  margin-top: 16px;
+}
+
+.dashboard-chart-panel {
+  padding: 16px 18px;
+  border-color: #dce4ed;
+}
+
+.dashboard-chart-head {
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.dashboard-chart-sub {
+  margin-top: 4px;
+  color: #7a899b;
+  font-size: 11.5px;
+}
+
+.dashboard-chart-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.dash-expand-btn {
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid #d7e0ea;
+  border-radius: 8px;
+  background: #f8fafd;
+  color: #40536b;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dash-expand-btn:hover {
+  background: #edf3fc;
+  border-color: #bdd0eb;
+  color: #1f5fc4;
+}
+
+.dashboard-chart-canvas {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  margin-top: 10px;
+}
+
+.dashboard-chart-meta {
+  margin-top: 9px;
+  color: #8290a2;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+/* Put the two monthly charts side-by-side on wide displays */
+#monthly-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+#monthly-section > .panel {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.monthly-chart-holder {
+  min-height: 255px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .exec-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-circle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #monthly-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .exec-kpi-grid,
+  .sp-circle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exec-summary {
+    align-items: flex-start;
+  }
+
+  .exec-summary-right {
+    width: 100%;
+    padding: 12px 0 0;
+    border-left: none;
+    border-top: 1px solid #e5ebf2;
+    text-align: left;
+  }
+
+  .analytics-section-head,
+  .dashboard-chart-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboard-chart-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+
+  .dashboard-chart-canvas {
+    height: 290px;
+  }
+}
+
+
+/* Phase 3 final spacing refinement */
+#monthly-section {
+  align-items: start;
+}
+
+.monthly-chart-holder {
+  min-height: 215px;
+}
+
+#monthly-section .dashboard-chart-panel {
+  align-self: start;
+}
+

@@ -11,16 +11,20 @@ const APP = {
 // 2026-07-28: 'links' (Project Management / Lifecycle Hub) removed from nav.
 // DB tables preserved. Admin can still reach the module via browser console: navigateTo('links')
 const NAV_ITEMS = [
-  { key: 'dashboard',             label: 'Dashboard',              icon: 'layout-dashboard', group: 'Operations',     accent: '#2563eb' },
-  { key: 'quotations',            label: 'Sales Quotations',       icon: 'file-text',        group: 'Operations',     accent: '#0e8a9a', tabs: true },
-  { key: 'contracts',             label: 'Contracts',              icon: 'handshake',        group: 'Operations',     accent: '#16875b', tabs: true },
-  { key: 'maintenance_contracts', label: 'Maintenance',            icon: 'wrench',           group: 'Operations',     accent: '#d9730d', tabs: true },
-  { key: 'alerts',                label: 'Alerts & Notifications', icon: 'bell-ring',        group: 'Operations',     accent: '#c43d3d', tabs: true },
-  { key: 'factory',               label: 'Factory & Suppliers',    icon: 'factory',          group: 'Operations',     accent: '#7c3aed', tabs: true },
-  { key: 'accounts',              label: 'Accounts & Payments',    icon: 'wallet-cards',     group: 'Operations',     accent: '#0f766e', tabs: true },
-  { key: 'reports',               label: 'Reports & Analytics',    icon: 'bar-chart-3',      group: 'Operations',     accent: '#0284c7' },
-  { key: 'users',                 label: 'User Management',        icon: 'user-cog',         group: 'Administration', accent: '#1d4ed8', adminOnly: true },
-  { key: 'backup',                label: 'System Backup',          icon: 'database-backup',  group: 'Administration', accent: '#475569' },
+  { key: 'dashboard',             label: 'Dashboard',              icon: 'layout-dashboard', group: 'Overview',              accent: '#60a5fa' },
+
+  { key: 'quotations',            label: 'Sales Quotations',       icon: 'file-text',        group: 'Sales & Contracts',     accent: '#22d3ee', tabs: true },
+  { key: 'contracts',             label: 'Contracts',              icon: 'handshake',        group: 'Sales & Contracts',     accent: '#34d399', tabs: true },
+
+  { key: 'maintenance_contracts', label: 'Maintenance',            icon: 'wrench',           group: 'Operations',            accent: '#f59e0b', tabs: true },
+  { key: 'alerts',                label: 'Callbacks & Alerts',      icon: 'bell-ring',        group: 'Operations',            accent: '#fb7185', tabs: true },
+  { key: 'factory',               label: 'Factory & Suppliers',    icon: 'factory',          group: 'Operations',            accent: '#a78bfa', tabs: true },
+
+  { key: 'accounts',              label: 'Accounts & Payments',    icon: 'wallet-cards',     group: 'Finance & Reporting',   accent: '#2dd4bf', tabs: true },
+  { key: 'reports',               label: 'Reports & Analytics',    icon: 'bar-chart-3',      group: 'Finance & Reporting',   accent: '#38bdf8' },
+
+  { key: 'users',                 label: 'User Management',        icon: 'user-cog',         group: 'Administration',        accent: '#60a5fa', adminOnly: true },
+  { key: 'backup',                label: 'System Backup',          icon: 'database-backup',  group: 'Administration',        accent: '#94a3b8' },
 ];
 // Menu visibility follows the role's module permissions (same list the server enforces)
 function navAllowed(item) {
