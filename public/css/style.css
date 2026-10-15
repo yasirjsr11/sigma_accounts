@@ -1454,7 +1454,17 @@ body { background: var(--color-bg); }
   padding: 14px 16px; border-bottom: 1px solid var(--color-border-light);
   min-height: var(--topbar-h);
 }
-.company-logo-sidebar, .brand-mark { width: 36px; max-width: 36px; height: 36px; object-fit: contain; margin: 0; flex-shrink: 0; border-radius: 9px; }
+/* Final sidebar branding refinement */
+.company-logo-sidebar.brand-mark {
+  width: 44px;
+  max-width: 44px;
+  height: 44px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 7px;
+  background: transparent;
+  transform: none;
+}
 .brand-text { min-width: 0; }
 .brand-name { font-size: 14px; font-weight: 700; color: var(--color-heading); text-align: left; letter-spacing: -0.01em;
   text-transform: none; margin: 0; white-space: nowrap; }
@@ -2238,3 +2248,4 @@ table.data-table tr:hover td { background: #f1f6fd !important; }
 #monthly-section .dashboard-chart-panel {
   align-self: start;
 }
+
