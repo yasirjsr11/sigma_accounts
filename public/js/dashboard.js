@@ -248,27 +248,27 @@ function buildExecKpiCards(d, targeted, sp) {
     return 'red';
   }
   const cards = [
-    { icon: '🎯', label: '2026 Sales Target', val: d.sales_target_2026 || 0, suffix: ' Units', sub: 'Annual company target', c: 'blue' },
-    { icon: '✅', label: 'Units Achieved', val: d.total_sales_units_2026 || 0, suffix: ' Units', sub: pct + '% of ' + (d.sales_target_2026 || 0) + ' target', c: cls(pct) },
-    { icon: '📉', label: 'Remaining Units', val: remaining, suffix: ' Units', sub: 'To complete annual target', c: remaining === 0 ? 'green' : 'grey' },
-    { icon: '📊', label: 'Achievement Rate', val: pct, suffix: '%', sub: 'Overall target achievement', c: cls(pct) },
-    { icon: '💬', label: 'Quotations 2026', val: totalQ, suffix: '', sub: 'Quotations submitted this year', c: 'blue', click: true },
-    { icon: '🔁', label: 'Conversion Rate', val: convRaw !== null ? convRaw : null, suffix: '%', sub: totalC + ' contracts from ' + totalQ + ' quotations', c: convRaw !== null ? cls(convRaw, 30, 15) : 'grey', noVal: convRaw === null },
-    { icon: '🏆', label: 'Best Performer', val: bestR ? (SP_LABELS[bestR.salesperson] || bestR.salesperson) : '—', suffix: '', sub: bestR ? esc(SP_FULL_NAMES[bestR.salesperson] || '') + ' — ' + bestR.percentage_of_achievement + '%' : 'No data', c: 'gold', text: true },
-    { icon: '🚚', label: 'Delivered to Site', val: d.units_delivered_2026 || 0, suffix: ' Units',
-      sub: (d.units_delivered_this_month || 0) + ' this month · YTD ' + (d.units_delivered_2026 || 0),
-      c: 'green', click: true, id: 'exec-kpi-delivered' },
-    { icon: '🏁', label: 'Handover Completed', val: d.handover_units_ytd || 0, suffix: ' Units',
-      sub: (d.handover_projects_ytd || 0) + ' projects handed over ' + new Date().getFullYear(),
-      c: 'teal', click: true, id: 'exec-kpi-handover' },
-  ];
+  { icon: 'target',       label: '2026 Sales Target',   val: d.sales_target_2026 || 0, suffix: ' Units', sub: 'Annual company target', c: 'blue' },
+  { icon: 'trending-up',  label: 'Units Achieved',      val: d.total_sales_units_2026 || 0, suffix: ' Units', sub: pct + '% of ' + (d.sales_target_2026 || 0) + ' target', c: cls(pct) },
+  { icon: 'hourglass',    label: 'Remaining Units',     val: remaining, suffix: ' Units', sub: 'To complete annual target', c: remaining === 0 ? 'green' : 'grey' },
+  { icon: 'gauge',        label: 'Achievement Rate',    val: pct, suffix: '%', sub: 'Overall target achievement', c: cls(pct) },
+  { icon: 'file-text',    label: 'Quotations 2026',     val: totalQ, suffix: '', sub: 'Quotations submitted this year', c: 'blue', click: true },
+  { icon: 'percent',      label: 'Conversion Rate',     val: convRaw !== null ? convRaw : null, suffix: '%', sub: totalC + ' contracts from ' + totalQ + ' quotations', c: convRaw !== null ? cls(convRaw, 30, 15) : 'grey', noVal: convRaw === null },
+  { icon: 'trophy',       label: 'Best Performer',      val: bestR ? (SP_LABELS[bestR.salesperson] || bestR.salesperson) : 'N/A', suffix: '', sub: bestR ? esc(SP_FULL_NAMES[bestR.salesperson] || '') + ' - ' + bestR.percentage_of_achievement + '%' : 'No data', c: 'gold', text: true },
+  { icon: 'truck',        label: 'Delivered to Site',   val: d.units_delivered_2026 || 0, suffix: ' Units',
+    sub: (d.units_delivered_this_month || 0) + ' this month | YTD ' + (d.units_delivered_2026 || 0),
+    c: 'green', click: true, id: 'exec-kpi-delivered' },
+  { icon: 'key-round',    label: 'Handover Completed',  val: d.handover_units_ytd || 0, suffix: ' Units',
+    sub: (d.handover_projects_ytd || 0) + ' projects handed over ' + new Date().getFullYear(),
+    c: 'teal', click: true, id: 'exec-kpi-handover' },
+];
   return '<div class="exec-kpi-grid">' + cards.map(function(card) {
     const isNum = !card.text && !card.noVal && typeof card.val === 'number' && !isNaN(card.val);
     const dispVal = card.noVal ? '—' : (card.text ? esc(String(card.val)) : (isNum ? '0' + esc(card.suffix) : esc(String(card.val)) + esc(card.suffix)));
     const attrs = isNum ? ' data-countup="' + card.val + '" data-suffix="' + esc(card.suffix) + '"' : '';
     const cardId = card.id ? ' id="' + card.id + '"' : (card.click ? ' id="exec-kpi-quot"' : '');
     return '<div class="exec-kpi-card ' + card.c + (card.click ? ' clickable' : '') + '"' + cardId + '>' +
-      '<div class="exec-kpi-top"><span class="exec-kpi-icon">' + card.icon + '</span><span class="exec-kpi-label">' + esc(card.label) + '</span></div>' +
+     '<div class="exec-kpi-top"><span class="exec-kpi-icon"><i data-lucide="' + card.icon + '" aria-hidden="true"></i></span><span class="exec-kpi-label">' + esc(card.label) + '</span></div>' +
       '<div class="exec-kpi-val"' + attrs + '>' + (card.noVal ? '—' : (card.text ? esc(String(card.val)) + esc(card.suffix) : dispVal)) + '</div>' +
       '<div class="exec-kpi-sub">' + card.sub + '</div>' +
       '</div>';
@@ -544,17 +544,51 @@ function renderSalesAnalytics(d, cfg) {
   if (!saSection) return;
 
   saSection.innerHTML =
-    buildExecutiveSummary(d, targeted, sp) +
+  '<section class="dashboard-analytics">' +
 
-    '<div class="exec-section-head" style="margin-top:8px">Sales Performance KPIs</div>' +
-    buildExecKpiCards(d, targeted, sp) +
+  buildExecutiveSummary(d, targeted, sp) +
 
-    '<div class="exec-section-head">Salesperson Progress</div>' +
-    buildSpCircularCards(targeted) +
+  '<div class="analytics-section-head">' +
+    '<div>' +
+      '<span class="analytics-kicker">SALES PERFORMANCE</span>' +
+      '<h3>Performance KPIs</h3>' +
+    '</div>' +
+    '<span class="analytics-period">2026</span>' +
+  '</div>' +
 
-    '<div class="panel"><h3>Salesperson Comparison</h3>' + buildComparisonTable(sp) + '</div>' +
+  buildExecKpiCards(d, targeted, sp) +
 
-    '<div class="panel"><h3>Key Insights</h3>' + buildInsightsPanel(d, targeted, sp) + '</div>';
+  '<div class="analytics-section-head">' +
+    '<div>' +
+      '<span class="analytics-kicker">TEAM PERFORMANCE</span>' +
+      '<h3>Salesperson Progress</h3>' +
+    '</div>' +
+    '<span class="analytics-period">Target vs Achieved</span>' +
+  '</div>' +
+
+  buildSpCircularCards(targeted) +
+
+  '<div class="panel analytics-panel">' +
+    '<div class="analytics-panel-head">' +
+      '<div>' +
+        '<h3>Salesperson Comparison</h3>' +
+        '<p>Target, quotations, achievement, conversion and progress</p>' +
+      '</div>' +
+    '</div>' +
+    buildComparisonTable(sp) +
+  '</div>' +
+
+  '<div class="panel analytics-panel analytics-insights-panel">' +
+    '<div class="analytics-panel-head">' +
+      '<div>' +
+        '<h3>Key Insights</h3>' +
+        '<p>Management-level performance indicators and attention points</p>' +
+      '</div>' +
+    '</div>' +
+    buildInsightsPanel(d, targeted, sp) +
+  '</div>' +
+
+  '</section>';
 
   // Quotations card click
   var quotCard = document.getElementById('exec-kpi-quot');
@@ -575,7 +609,7 @@ function renderSalesAnalytics(d, cfg) {
   if (handoverCard) handoverCard.addEventListener('click', function() {
     _showHandoverDrillModal(d);
   });
-
+if (typeof renderIcons === 'function') renderIcons();
   initDashboardAnimations();
 }
 
@@ -651,68 +685,123 @@ function renderMonthlySections(d) {
 
   var chart6 = svgBarChart({
     categories: monthlyQ.map(function(m) { return m.month.slice(5); }),
-    series: [{ name: 'Quotations Submitted', color: '#AFC6D9', values: monthlyQ.map(function(m) { return m.total; }) }],
+    series: [{
+      name: 'Quotations Submitted',
+      color: '#AFC6D9',
+      values: monthlyQ.map(function(m) { return m.total; })
+    }],
   });
 
   var spOpts = ['total'].concat(SALESPERSON_CODES_FALLBACK(sp)).map(function(code) {
-    return '<option value="' + code + '">' + (code === 'total' ? 'All Salespeople' : (SP_LABELS[code] || code)) + '</option>';
+    return '<option value="' + code + '">' +
+      (code === 'total' ? 'All Salespeople' : (SP_LABELS[code] || code)) +
+      '</option>';
   }).join('');
 
   var sec = document.getElementById('monthly-section');
   if (!sec) return;
 
   sec.innerHTML =
-    '<div class="panel" style="margin-bottom:16px">' +
-    '<div class="sa-header">' +
-    '<h3 style="margin:0">Monthly Sales Trend — 2026</h3>' +
-    '<div style="display:flex;align-items:center;gap:8px">' +
-    '<div class="sa-controls"><label class="sa-ctrl-label">Salesperson:</label>' +
-    '<select id="monthly-sp-filter" class="sa-select">' + spOpts + '</select></div>' +
-    '<button id="dash-zoom-sales" title="Presentation View" style="background:#f4f7fb;border:1px solid #c8d6e5;border-radius:5px;padding:3px 8px;cursor:pointer;font-size:14px;line-height:1">⛶</button>' +
-    '</div></div>' +
-    '<div id="monthly-chart-holder"></div>' +
-    '<div class="meta">Monthly contracts confirmed, 2026.</div>' +
+    '<div class="panel dashboard-chart-panel">' +
+
+      '<div class="sa-header dashboard-chart-head">' +
+        '<div>' +
+          '<span class="analytics-kicker">MONTHLY SALES</span>' +
+          '<h3>Monthly Sales Trend &mdash; 2026</h3>' +
+        '</div>' +
+
+        '<div class="dashboard-chart-actions">' +
+          '<div class="sa-controls">' +
+            '<label class="sa-ctrl-label">Salesperson:</label>' +
+            '<select id="monthly-sp-filter" class="sa-select">' + spOpts + '</select>' +
+          '</div>' +
+
+          '<button id="dash-zoom-sales" type="button" class="dash-expand-btn" title="Presentation View">Expand</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<div id="monthly-chart-holder" class="monthly-chart-holder"></div>' +
+      '<div class="meta dashboard-chart-meta">Monthly contracts confirmed during 2026.</div>' +
+
     '</div>' +
-    '<div class="panel">' +
-    '<div class="sa-header">' +
-    '<h3 style="margin:0">Monthly Quotations — 2026</h3>' +
-    '<button id="dash-zoom-quot" title="Presentation View" style="background:#f4f7fb;border:1px solid #c8d6e5;border-radius:5px;padding:3px 8px;cursor:pointer;font-size:14px;line-height:1">⛶</button>' +
-    '</div>' +
-    chart6 + chartLegend([{ name: 'Quotations Submitted', color: '#AFC6D9' }]) +
-    '<div class="meta">Quotations submitted per month in 2026.</div>' +
+
+    '<div class="panel dashboard-chart-panel">' +
+
+      '<div class="sa-header dashboard-chart-head">' +
+        '<div>' +
+          '<span class="analytics-kicker">QUOTATION ACTIVITY</span>' +
+          '<h3>Monthly Quotations &mdash; 2026</h3>' +
+        '</div>' +
+
+        '<button id="dash-zoom-quot" type="button" class="dash-expand-btn" title="Presentation View">Expand</button>' +
+      '</div>' +
+
+      chart6 +
+      chartLegend([{ name: 'Quotations Submitted', color: '#AFC6D9' }]) +
+
+      '<div class="meta dashboard-chart-meta">Quotations submitted per month during 2026.</div>' +
+
     '</div>';
 
   function renderMonthlyChart(code) {
     var holder = document.getElementById('monthly-chart-holder');
     if (holder) holder.innerHTML = buildLineChart(monthly, code);
   }
+
   renderMonthlyChart('total');
+
   var spFil = document.getElementById('monthly-sp-filter');
-  if (spFil) spFil.addEventListener('change', function(e) { renderMonthlyChart(e.target.value); });
+  if (spFil) {
+    spFil.addEventListener('change', function(e) {
+      renderMonthlyChart(e.target.value);
+    });
+  }
 
   var salesZoom = document.getElementById('dash-zoom-sales');
-  if (salesZoom) salesZoom.addEventListener('click', function() {
-    var code = spFil ? spFil.value : 'total';
-    var spName = code === 'total' ? 'All Salespeople' : (SP_LABELS[code] || code);
-    _dashOpenPresentation('Monthly Sales Trend — 2026 · ' + spName, function(bodyEl) {
-      bodyEl.style.overflow = 'auto';
-      bodyEl.innerHTML = '<div style="width:100%;min-height:280px">' + buildLineChart(monthly, code) + '</div>';
+  if (salesZoom) {
+    salesZoom.addEventListener('click', function() {
+      var code = spFil ? spFil.value : 'total';
+      var spName = code === 'total'
+        ? 'All Salespeople'
+        : (SP_LABELS[code] || code);
+
+      _dashOpenPresentation(
+        'Monthly Sales Trend - 2026 | ' + spName,
+        function(bodyEl) {
+          bodyEl.style.overflow = 'auto';
+          bodyEl.innerHTML =
+            '<div style="width:100%;min-height:280px">' +
+            buildLineChart(monthly, code) +
+            '</div>';
+        }
+      );
     });
-  });
+  }
 
   var quotZoom = document.getElementById('dash-zoom-quot');
-  if (quotZoom) quotZoom.addEventListener('click', function() {
-    _dashOpenPresentation('Monthly Quotations — 2026', function(bodyEl) {
-      bodyEl.style.overflow = 'auto';
-      bodyEl.innerHTML = '<div style="width:100%;min-height:280px">' + svgBarChart({
-        categories: monthlyQ.map(function(m) { return m.month.slice(5); }),
-        series: [{ name: 'Quotations Submitted', color: '#AFC6D9', values: monthlyQ.map(function(m) { return m.total; }) }],
-        height: 340,
-      }) + '</div>';
+  if (quotZoom) {
+    quotZoom.addEventListener('click', function() {
+      _dashOpenPresentation(
+        'Monthly Quotations - 2026',
+        function(bodyEl) {
+          bodyEl.style.overflow = 'auto';
+          bodyEl.innerHTML =
+            '<div style="width:100%;min-height:280px">' +
+            svgBarChart({
+              categories: monthlyQ.map(function(m) { return m.month.slice(5); }),
+              series: [{
+                name: 'Quotations Submitted',
+                color: '#AFC6D9',
+                values: monthlyQ.map(function(m) { return m.total; })
+              }],
+              height: 340,
+            }) +
+            '</div>';
+        }
+      );
     });
-  });
+  }
 }
-
 // ── Project Status drill-down modal ───────────────────────────────────────────
 async function _showProjectStatusDrillModal(year, mo, series, monthLabel, seriesLabel) {
   openModal('<div style="padding:8px"><h3 style="margin:0 0 12px">📊 ' + esc(seriesLabel) + ' — ' + esc(monthLabel) + ' ' + year + '</h3><div style="color:#667">Loading…</div></div>');
@@ -813,18 +902,30 @@ async function renderProjectStatusSection() {
       },
     },
   };
-  sec.innerHTML =
-    '<div class="panel">' +
-    '<div class="sa-header">' +
-    '<div>' +
-    '<h3 style="margin:0 0 2px">Project Status — 2026</h3>' +
-    '<div style="font-size:12px;color:#94a3b8;margin-top:2px">Unit-based lifecycle milestones · click any bar to drill down</div>' +
+ sec.innerHTML =
+  '<div class="panel dashboard-chart-panel">' +
+
+    '<div class="sa-header dashboard-chart-head">' +
+      '<div>' +
+        '<span class="analytics-kicker">PROJECT LIFECYCLE</span>' +
+        '<h3>Project Status &mdash; 2026</h3>' +
+        '<div class="dashboard-chart-sub">Unit-based lifecycle milestones. Click any bar to view the underlying projects.</div>' +
+      '</div>' +
+
+      '<button id="dash-zoom-proj" type="button" class="dash-expand-btn" title="Presentation View">Expand</button>' +
     '</div>' +
-    '<button id="dash-zoom-proj" title="Presentation View" style="background:#f4f7fb;border:1px solid #c8d6e5;border-radius:5px;padding:3px 8px;cursor:pointer;font-size:14px;line-height:1">⛶</button>' +
+
+    '<div class="dashboard-chart-canvas">' +
+      '<canvas id="dash-proj-canvas"></canvas>' +
     '</div>' +
-    '<div style="position:relative;height:380px;width:100%;margin-top:12px"><canvas id="dash-proj-canvas"></canvas></div>' +
-    '<div class="meta" style="margin-top:10px">Sales: contract approval date · Production: factory order date · Delivery: actual site delivery date · Handover: project T&amp;C handover date. Shipping &amp; Installation excluded — no milestone date in schema.</div>' +
-    '</div>';
+
+    '<div class="meta dashboard-chart-meta">' +
+      'Sales: contract approval date &middot; Production: factory order date &middot; ' +
+      'Delivery: actual site delivery date &middot; Handover: project T&amp;C handover date. ' +
+      'Shipping and Installation are excluded because no milestone date is stored for them.' +
+    '</div>' +
+
+  '</div>';
   // Chart.js is guaranteed loaded by the await above. Create chart immediately after DOM update.
   requestAnimationFrame(function() {
     var canvas = document.getElementById('dash-proj-canvas');
@@ -889,6 +990,10 @@ async function renderDashboard(root) {
     { icon: 'truck',      tone: '#7c3aed', val: num(d.units_delivered_2026), label: 'Units Delivered 2026', sub: `${num(d.units_in_production_2026)} in production` },
     { icon: 'key-round',  tone: '#d9730d', val: num(d.handover_units_ytd), label: 'Handover Units YTD', sub: `${num(d.handover_projects_ytd)} project(s)` },
   ];
+const refreshedAt = new Date().toLocaleTimeString('en-US', {
+  hour: '2-digit',
+  minute: '2-digit'
+});
   const QA = [
     { key: 'quotations', icon: 'file-plus', label: 'Add Quotation', btn: 'qf-add', before: () => { QuotationsState.view = 'register'; } },
     { key: 'contracts', icon: 'file-signature', label: 'New Contract', btn: 'cf-add', before: () => { ContractsState.sub = 'list'; } },
@@ -897,10 +1002,19 @@ async function renderDashboard(root) {
     { key: 'reports', icon: 'bar-chart-3', label: 'View Reports' },
     { key: 'backup', icon: 'database-backup', label: 'System Backup' },
   ].filter(a => can(a.key));
-
-  root.innerHTML =
-    '<div class="dash-kpi-grid">' + kpis.map((k, i) =>
-      `<div class="dash-kpi ${k.go ? 'clickable' : ''}" data-kpi="${i}" style="--kpi-tone:${k.tone}">
+root.innerHTML =
+  `<div class="dash-overview-head">
+     <div>
+       <div class="dash-overview-eyebrow">MANAGEMENT OVERVIEW</div>
+       <div class="dash-overview-title">Business Performance</div>
+       <div class="dash-overview-sub">Sales, contracts, production, delivery and handover performance for 2026</div>
+     </div>
+     <div class="dash-refresh">
+       <i data-lucide="refresh-cw" aria-hidden="true"></i>
+       <span>Refreshed ${esc(refreshedAt)}</span>
+     </div>
+   </div>` +
+  '<div class="dash-kpi-grid">' + kpis.map((k, i) =>      `<div class="dash-kpi ${k.go ? 'clickable' : ''}" data-kpi="${i}" style="--kpi-tone:${k.tone}">
          <span class="dash-kpi-icon"><i data-lucide="${k.icon}" aria-hidden="true"></i></span>
          <div class="dash-kpi-body"><div class="dash-kpi-val">${k.val}</div><div class="dash-kpi-label">${esc(k.label)}</div>
          ${k.sub ? `<div class="dash-kpi-sub">${esc(k.sub)}</div>` : ''}</div></div>`).join('') + '</div>' +
