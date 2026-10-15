@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Sigma Height PMS</title>
+<link rel="icon" type="image/x-icon" href="/img/icons/app-icon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css?v=20261003a">
+<link rel="stylesheet" href="/css/print.css?v=20260929a">
+</head>
+<body>
+
+<div id="login-screen" class="login-screen">
+  <div class="login-box">
+    <div class="logo-placeholder" id="login-logo">
+      <img src="/img/logo.png" alt="Sigma Height Elevators LLC" class="company-logo company-logo-login">
+    </div>
+    <h1>Sigma Height PMS</h1>
+    <p class="sub">Project Management System</p>
+    <form id="login-form" action="#" method="post">
+      <label>Username</label>
+      <input type="text" id="login-username" autocomplete="username" required>
+      <label>Password</label>
+      <input type="password" id="login-password" autocomplete="current-password" required>
+      <button type="submit">Sign In</button>
+      <div id="login-error" class="error-text"></div>
+    </form>
+  </div>
+</div>
+
+<div id="app-shell" class="app-shell hidden">
+  <aside class="sidebar" id="app-sidebar" aria-label="Main navigation">
+    <div class="brand" id="sidebar-logo">
+      <img src="/img/icons/apple-touch-icon.png" alt="Sigma Height Elevators LLC" class="company-logo company-logo-sidebar brand-mark">
+      <div class="brand-text">
+        <div class="brand-name">Sigma Height PMS</div>
+        <div class="brand-subtitle">Elevator Management System</div>
+      </div>
+    </div>
+    <nav id="nav-links"></nav>
+    <div class="sidebar-footer">
+      <div id="current-user"></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <button type="button" class="topbar-icon-btn" id="sidebar-toggle" title="Collapse / expand menu" aria-label="Collapse or expand the menu" aria-controls="app-sidebar" aria-expanded="true">
+        <i data-lucide="menu" aria-hidden="true"></i>
+      </button>
+      <div id="page-title">Dashboard</div>
+      <div class="global-search" id="global-search">
+        <i data-lucide="search" class="gs-icon" aria-hidden="true"></i>
+        <input type="search" id="global-search-input" placeholder="Search Contract, Client, AMC, Factory Ref., Quote Ref..." autocomplete="off" aria-label="Global search">
+        <div class="gs-menu hidden" id="global-search-menu" role="listbox"></div>
+      </div>
+      <div class="topbar-right">
+        <button type="button" class="topbar-icon-btn bell-btn hidden" id="alert-badge" title="Alerts & Notifications" aria-label="Alerts and Notifications">
+          <i data-lucide="bell" aria-hidden="true"></i><span class="bell-count" id="alert-count"></span>
+        </button>
+        <div class="user-menu" id="user-menu">
+          <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="user-avatar"></span>
+            <span class="topbar-user" id="topbar-user"></span>
+            <i data-lucide="chevron-down" class="user-caret" aria-hidden="true"></i>
+          </button>
+          <div class="user-dropdown hidden" id="user-dropdown" role="menu">
+            <div class="ud-head" id="ud-head"></div>
+            <button type="button" class="ud-item" id="logout-btn" role="menuitem"><i data-lucide="log-out" aria-hidden="true"></i>Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div id="view-root" class="view-root"></div>
+  </main>
+</div>
+
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+<div id="toast" class="toast hidden"></div>
+
+<!-- Cloud edition: server-side form login (POST /login) removed; login is handled by js/app.js via /api/auth/login -->
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="/js/api.js?v=20260713a"></script>
+<script src="/js/common.js?v=20260922f"></script>
+<script src="/js/dashboard.js?v=20261003a"></script>
+<script src="/js/quotations.js?v=20261001a"></script>
+<script src="/js/sales_followup.js?v=20261001a"></script>
+<script src="/js/factory.js?v=20261010a"></script>
+<script src="/js/links.js?v=20260922g"></script>
+<script src="/js/contracts.js?v=20261010a"></script>
+<script src="/js/maintenance_contracts.js?v=20261008a"></script>
+<script src="/js/alerts.js?v=20261003c"></script>
+<script src="/js/reports.js?v=20261008a"></script>
+<script src="/js/users.js?v=20260713d"></script>
+<script src="/js/accounts.js?v=20260921b"></script>
+<script src="/js/backup.js?v=20261010cloud"></script>
+<script src="/js/app.js?v=20261003b"></script>
+</body>
+</html>

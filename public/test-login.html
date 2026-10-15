@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Login Test</title>
+<style>body{font-family:sans-serif;max-width:400px;margin:60px auto;padding:20px}
+input,button{display:block;width:100%;margin:8px 0;padding:10px;font-size:16px;box-sizing:border-box}
+button{background:#1a4e8a;color:#fff;border:none;cursor:pointer;border-radius:4px}
+.msg{padding:12px;margin:10px 0;border-radius:4px}
+.ok{background:#d4edda;color:#155724}
+.err{background:#f8d7da;color:#721c24}
+pre{background:#f0f0f0;padding:10px;font-size:13px;white-space:pre-wrap}
+</style></head>
+<body>
+<h2>SH-PMS Login Test</h2>
+<p>This page tests login without any complex JS. Results appear below.</p>
+
+<label>Username</label>
+<input type="text" id="u" value="admin">
+<label>Password</label>
+<input type="password" id="p" value="">
+<button onclick="testLogin()">Test Login (AJAX)</button>
+<div id="out"></div>
+
+<script>
+async function testLogin() {
+  var out = document.getElementById('out');
+  var u = document.getElementById('u').value;
+  var p = document.getElementById('p').value;
+  out.innerHTML = 'Testing...';
+  try {
+    var r = await fetch('/api/auth/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      credentials:'same-origin',
+      body: JSON.stringify({username:u, password:p})
+    });
+    var d = await r.json();
+    if (r.ok) {
+      out.innerHTML = '<div class="msg ok">✅ LOGIN SUCCESS<br>User: ' + d.user.username + ' / Role: ' + d.user.role + '</div>';
+      setTimeout(function(){ window.location='/'; }, 2000);
+    } else {
+      out.innerHTML = '<div class="msg err">❌ FAILED (HTTP ' + r.status + '): ' + (d.error||'unknown') + '</div>';
+    }
+    out.innerHTML += '<pre>Response: ' + JSON.stringify(d, null, 2) + '</pre>';
+  } catch(e) {
+    out.innerHTML = '<div class="msg err">❌ JS ERROR: ' + e.message + '</div>';
+  }
+}
+</script>
+
+<hr>
+<h3>Check current session</h3>
+<button onclick="checkSession()">Check if already logged in</button>
+<div id="sess"></div>
+<script>
+async function checkSession() {
+  var r = await fetch('/api/auth/me', {credentials:'same-origin'});
+  var d = await r.json();
+  document.getElementById('sess').innerHTML = '<pre>' + JSON.stringify(d, null, 2) + '</pre>';
+}
+</script>
+</body>
+</html>

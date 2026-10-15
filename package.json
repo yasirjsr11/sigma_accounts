@@ -1,0 +1,26 @@
+{
+  "name": "sh-pms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "6.0.2",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-mysql-session": "3.0.3",
+    "express-session": "^1.19.0",
+    "multer": "^2.2.0",
+    "mysql2": "3.24.5",
+    "node-cron": "^4.5.0",
+    "pdfkit": "^0.19.1",
+    "xlsx": "^0.18.5"
+  }
+}

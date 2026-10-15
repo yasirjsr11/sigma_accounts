@@ -1,0 +1,69 @@
+# =========================================================
+# SH PMS - Git exclusions
+# =========================================================
+
+# Dependencies
+node_modules/
+_migration_tools/node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Runtime uploads
+uploads/**
+!uploads/.gitkeep
+
+# Runtime backups
+backups/**
+!backups/.gitkeep
+
+# Logs
+logs/**
+*.log
+
+# Migration source snapshots
+_migration_source/**
+
+# Restore / migration scratch
+restore_debug/**
+restore_test_uploads/**
+uploads_before_baseline_restore_20261014/**
+
+# Generated migration reports
+reports/migration_test/**
+
+# Generated reports
+reports_output/**
+
+# Backup packages / hashes
+*.zip
+*.sha256
+
+# Temporary files
+*.tmp
+*.temp
+
+# Windows / editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Office / operational data files
+*.xlsx
+*.xls
+*.docx
+
+# Temporary development files
+db/newfile_test.txt
+
+# Manual pre-change source copies
+server.before_*.js
+db/*.before_*.js
+
+# Historical script backup copies
+_migration_tools/*.backup.js
+
+# Generated import audit results
+import/*audit*.json

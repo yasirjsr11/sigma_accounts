@@ -1,0 +1,7 @@
+{
+  "build": "SH_PMS_LOCAL_MARIADB_TEST_v1",
+  "base_release": "sh-pms-cloud-20261013-1",
+  "target": "Windows XAMPP MariaDB 10.4.32",
+  "database": "sh_pms_test",
+  "aws": false
+}
