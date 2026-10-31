@@ -62,6 +62,8 @@ async function renderQuotationsRegister(root) {
           <option value="desc" ${QuotationsState.filters.dir === 'desc' ? 'selected' : ''}>Descending</option>
           <option value="asc" ${QuotationsState.filters.dir === 'asc' ? 'selected' : ''}>Ascending</option>
         </select>
+        <button type="button" class="btn secondary filter-clear-btn" id="qf-clear">Clear Filters</button>
+        <span class="filter-state-badge" id="qf-active-indicator"></span>
         <div class="spacer"></div>
         <button class="btn" id="qf-add">+ New Quotation</button>
       </div>
@@ -109,6 +111,23 @@ async function renderQuotationsRegister(root) {
   document.getElementById('qf-dir').addEventListener('change', (e) => {
     QuotationsState.filters.dir = e.target.value; loadQuotations();
   });
+
+  document.getElementById('qf-clear').addEventListener('click', () => {
+    const sort = QuotationsState.filters.sort || 'updated_at';
+    const dir = QuotationsState.filters.dir || 'desc';
+
+    QuotationsState.filters = { sort, dir };
+    QuotationsState.page = 1;
+
+    document.getElementById('qf-search').value = '';
+    document.getElementById('qf-status').value = '';
+    document.getElementById('qf-salesperson').value = '';
+    document.getElementById('qf-year').value = '';
+    document.getElementById('qf-month').value = '';
+
+    loadQuotations();
+  });
+
   document.getElementById('qf-add').addEventListener('click', () => openQuotationModal(null));
 
   await loadQuotations();
@@ -118,6 +137,21 @@ async function loadQuotations() {
   const params = new URLSearchParams({ page: QuotationsState.page, pageSize: 50 });
   Object.entries(QuotationsState.filters).forEach(([k, v]) => { if (v) params.set(k, v); });
   const data = await API.get('/api/quotations?' + params.toString());
+
+  const activeFilterKeys = ['search', 'status', 'salesperson', 'year', 'month'];
+  const activeFilterCount = activeFilterKeys.filter(k => {
+    const v = QuotationsState.filters[k];
+    return v !== undefined && v !== null && String(v).trim() !== '';
+  }).length;
+
+  const filterIndicator = document.getElementById('qf-active-indicator');
+  if (filterIndicator) {
+    filterIndicator.textContent = activeFilterCount
+      ? `${activeFilterCount} active filter${activeFilterCount === 1 ? '' : 's'}`
+      : '';
+    filterIndicator.classList.toggle('show', activeFilterCount > 0);
+  }
+
   const tbody = document.getElementById('quotations-tbody');
   if (!data.rows.length) {
     tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No quotations found</td></tr>';
@@ -149,7 +183,7 @@ async function loadQuotations() {
   const totalPages = Math.max(1, Math.ceil(data.total / data.pageSize));
   document.getElementById('quotations-pagination').innerHTML = `
     <button class="btn small secondary" ${QuotationsState.page <= 1 ? 'disabled' : ''} id="pg-prev">Prev</button>
-    <span>Page ${data.page} of ${totalPages} — ${data.total} total</span>
+    <span class="pagination-summary"><strong>${data.total}</strong> quotation${data.total === 1 ? '' : 's'} &middot; Page ${data.page} of ${totalPages}</span>
     <button class="btn small secondary" ${QuotationsState.page >= totalPages ? 'disabled' : ''} id="pg-next">Next</button>
   `;
   const prevBtn = document.getElementById('pg-prev'), nextBtn = document.getElementById('pg-next');
@@ -215,13 +249,13 @@ function renderQuotationForm(p, history, revisions) {
         ${history.length ? history.map(h => `
           <div class="history-item">
             <div><b>${esc(h.field_name)}</b>: ${esc(h.old_value ?? '-')} &rarr; ${esc(h.new_value ?? '-')}</div>
-            <div class="meta">${fmtDate(h.changed_at)} by ${esc(h.changed_by)} ${h.remarks ? '— ' + esc(h.remarks) : ''}</div>
+            <div class="meta">${fmtDate(h.changed_at)} by ${esc(h.changed_by)} ${h.remarks ? '&mdash; ' + esc(h.remarks) : ''}</div>
           </div>`).join('') : '<div class="empty-state">No history yet</div>'}
       </div>
     </div>
     <div id="tab-revisions" class="hidden">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <b style="font-size:13px">Revision History — ${esc(p.quote_ref || '')}</b>
+       <b style="font-size:13px">Revision History &mdash; ${esc(p.quote_ref || '')}</b>
         <button class="btn small" id="add-revision-btn">+ Add Revision</button>
       </div>
 

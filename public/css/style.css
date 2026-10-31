@@ -2249,3 +2249,412 @@ table.data-table tr:hover td { background: #f1f6fd !important; }
   align-self: start;
 }
 
+/* ==========================================================
+   SH PMS - Sales Quotations & Contracts Register Refinement
+   Phase 1A - presentation only
+   ========================================================== */
+
+/* ---------- Shared commercial register controls ---------- */
+
+.qm-sticky-bar .toolbar,
+#contracts-sub-root > .toolbar {
+  gap: 8px;
+}
+
+.qm-sticky-bar .toolbar input,
+.qm-sticky-bar .toolbar select,
+#contracts-sub-root > .toolbar input,
+#contracts-sub-root > .toolbar select {
+  height: 36px;
+  border-color: #d8e1eb;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 12px;
+}
+
+.qm-sticky-bar .toolbar input:focus,
+.qm-sticky-bar .toolbar select:focus,
+#contracts-sub-root > .toolbar input:focus,
+#contracts-sub-root > .toolbar select:focus {
+  border-color: #8bb5e8;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  outline: none;
+}
+
+/* Make primary search controls easier to find */
+#qf-search {
+  min-width: 280px;
+}
+
+#cf-search {
+  min-width: 290px;
+}
+
+/* Action buttons */
+#qf-add,
+#cf-add {
+  min-height: 36px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+#cf-export-xlsx,
+#cf-export-pdf,
+#cf-print {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Quotations register ---------- */
+
+.quotations-table-wrap {
+  border: 1px solid #dce4ed;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.quotations-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.quotations-table th {
+  position: sticky;
+  top: 0;
+  background: #f5f8fc !important;
+  color: #42546b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  z-index: 3;
+}
+
+.quotations-table td {
+  vertical-align: middle;
+}
+
+.quotations-table .q-ref {
+  color: #145cad;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+.quotations-table .q-row {
+  cursor: pointer;
+}
+
+.quotations-table .q-row:hover td {
+  background: #f3f7fc !important;
+}
+
+/* Keep quotation identity visible during horizontal scroll */
+.quotations-table th:first-child,
+.quotations-table td:first-child {
+  position: sticky;
+  left: 0;
+}
+
+.quotations-table th:first-child {
+  z-index: 5;
+  background: #f5f8fc !important;
+}
+
+.quotations-table td:first-child {
+  z-index: 2;
+  background: #ffffff;
+}
+
+.quotations-table tr:nth-child(even) td:first-child {
+  background: #fbfcfe;
+}
+
+.quotations-table tr:hover td:first-child {
+  background: #f3f7fc !important;
+}
+
+/* ---------- Contracts register ---------- */
+
+/*
+   Keep all 15 authoritative contract columns,
+   but reduce unnecessary width and make Contract Ref persistent.
+*/
+.contracts-table {
+  min-width: 1400px;
+}
+
+.contracts-table .ccol-ref {
+  width: 100px;
+}
+
+.contracts-table .ccol-quote {
+  width: 88px;
+}
+
+.contracts-table .ccol-client {
+  width: 220px;
+}
+
+.contracts-table .ccol-emirate {
+  width: 72px;
+}
+
+.contracts-table .ccol-units {
+  width: 46px;
+}
+
+.contracts-table .ccol-date {
+  width: 96px;
+}
+
+.contracts-table .ccol-sales {
+  width: 56px;
+}
+
+.contracts-table .ccol-pstatus {
+  width: 96px;
+}
+
+.contracts-table .ccol-status {
+  width: 96px;
+}
+
+.contracts-table .ccol-handover {
+  width: 96px;
+}
+
+.contracts-table .ccol-value {
+  width: 118px;
+}
+
+.contracts-table .ccol-factory {
+  width: 96px;
+}
+
+.contracts-table .ccol-maint {
+  width: 54px;
+}
+
+/* Contract Ref remains visible when horizontally scrolling */
+.contracts-table th:first-child,
+.contracts-table td:first-child {
+  position: sticky;
+  left: 0;
+}
+
+.contracts-table th:first-child {
+  z-index: 5;
+  background: #f5f8fc !important;
+}
+
+.contracts-table td:first-child {
+  z-index: 2;
+  background: #ffffff;
+  color: #145cad;
+  font-weight: 750;
+}
+
+.contracts-table tr:nth-child(even) td:first-child {
+  background: #fbfcfe;
+}
+
+.contracts-table tr:hover td:first-child {
+  background: #f1f6fd !important;
+}
+
+/* Improve the contracts table container */
+#contracts-sub-root > .table-wrap {
+  border: 1px solid #dce4ed;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+/* Cleaner project / status presentation */
+.contracts-table td {
+  vertical-align: middle;
+}
+
+/* ---------- Laptop ---------- */
+
+@media (max-width: 1500px) {
+  .contracts-table {
+    min-width: 1360px;
+  }
+
+  .contracts-table .ccol-client {
+    width: 190px;
+  }
+
+  #contracts-sub-root > .toolbar {
+    flex-wrap: wrap;
+  }
+
+  #cf-search {
+    flex: 1 1 260px;
+  }
+}
+
+/* ---------- Tablet / mobile ---------- */
+
+@media (max-width: 900px) {
+  .qm-sticky-bar {
+    position: static;
+  }
+
+  .qm-sticky-bar .toolbar,
+  #contracts-sub-root > .toolbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  #qf-search,
+  #cf-search {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .qm-sticky-bar .toolbar input,
+  .qm-sticky-bar .toolbar select,
+  #contracts-sub-root > .toolbar input,
+  #contracts-sub-root > .toolbar select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .qm-sticky-bar .toolbar .spacer,
+  #contracts-sub-root > .toolbar .spacer {
+    display: none;
+  }
+
+  #qf-add,
+  #cf-add {
+    width: 100%;
+  }
+
+  #contracts-sub-root > .table-wrap {
+    overflow-x: auto;
+  }
+
+  .contracts-table {
+    min-width: 1320px;
+  }
+}
+
+@media (max-width: 560px) {
+  .qm-sticky-bar .toolbar,
+  #contracts-sub-root > .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  #qf-search,
+  #cf-search {
+    grid-column: 1;
+  }
+}
+
+/* ==========================================================
+   Sales & Contracts - Phase 1B refinements
+   ========================================================== */
+
+/* Give important quotation headers enough room */
+.quotations-table .qcol-ref {
+  width: 110px;
+}
+
+.quotations-table .qcol-status {
+  width: 92px;
+}
+
+.quotations-table .qcol-sales {
+  width: 82px;
+}
+
+.quotations-table .qcol-date {
+  width: 100px;
+}
+
+.quotations-table .qcol-value {
+  width: 112px;
+}
+
+.quotations-table .qcol-updated {
+  width: 100px;
+}
+
+/* Maintenance relationship indicator */
+.maint-link-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  vertical-align: middle;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.04);
+}
+
+.maint-link-dot.linked {
+  background: #22a06b;
+}
+
+.maint-link-dot.unlinked {
+  background: #e49a16;
+}
+
+/* Sales Quotations final column spacing */
+.quotations-table .qcol-sales {
+  width: 96px;
+}
+
+.quotations-table .qcol-date {
+  width: 110px;
+}
+
+.quotations-table .qcol-updated {
+  width: 110px;
+}
+
+/* Sales & Contracts - Filter usability */
+.filter-clear-btn {
+  min-height: 36px;
+  white-space: nowrap;
+}
+
+.filter-state-badge {
+  display: none;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid #bed5f4;
+  border-radius: 999px;
+  background: #edf5ff;
+  color: #1f5fc4;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.filter-state-badge.show {
+  display: inline-flex;
+}
+
+.pagination-summary {
+  color: #68798e;
+  font-size: 12px;
+}
+
+.pagination-summary strong {
+  color: #17324f;
+}
+
+@media (max-width: 900px) {
+  .filter-clear-btn {
+    width: 100%;
+  }
+
+  .filter-state-badge.show {
+    justify-content: center;
+  }
+}

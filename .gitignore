@@ -67,3 +67,11 @@ _migration_tools/*.backup.js
 
 # Generated import audit results
 import/*audit*.json
+
+*.bak
+backups/
+
+backup-*.cmd
+scheduled-backup-*.cmd
+scheduled-onedrive-copy.ps1
+start-main.cmd

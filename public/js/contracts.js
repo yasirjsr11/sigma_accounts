@@ -86,10 +86,12 @@ async function renderContractsList(root) {
       <input type="text" id="cf-factory-ref" placeholder="Factory Ref. filter..." style="width:140px">
       <select id="cf-sort">${SORT_OPTS.map(([v, l]) => `<option value="${v}">Sort: ${l}</option>`).join('')}</select>
       <select id="cf-dir"><option value="desc">Descending</option><option value="asc">Ascending</option></select>
+      <button type="button" class="btn secondary filter-clear-btn" id="cf-clear">Clear Filters</button>
+      <span class="filter-state-badge" id="cf-active-indicator"></span>
       <div class="spacer"></div>
       <a id="cf-export-xlsx" class="btn secondary" href="/api/reports/contracts-list.xlsx" target="_blank">Export Excel</a>
       <a id="cf-export-pdf" class="btn secondary" href="/api/reports/contracts-list.pdf" target="_blank">Export PDF</a>
-      <button type="button" class="btn secondary" id="cf-print" title="Print Contracts List">🖨 Print</button>
+    <button type="button" class="btn secondary" id="cf-print" title="Print Contracts List">Print</button>
       ${isContractEditor() ? `<button class="btn" id="cf-add">+ New Contract</button>` : ''}
     </div>
     <div class="table-wrap"><table class="data-table contracts-table">
@@ -114,9 +116,41 @@ async function renderContractsList(root) {
     ContractsState.filters.cancelled_only = v === 'show_cancelled' ? '1' : '';
     ContractsState.page = 1; loadContractsList();
   });
-  document.getElementById('cf-sort').addEventListener('change', (e) => { ContractsState.filters.sort = e.target.value; loadContractsList(); });
-  document.getElementById('cf-dir').addEventListener('change', (e) => { ContractsState.filters.dir = e.target.value; loadContractsList(); });
-  document.getElementById('cf-factory-ref').addEventListener('input', debounce(() => { ContractsState.filters.factory_ref = document.getElementById('cf-factory-ref').value; ContractsState.page = 1; loadContractsList(); }, 350));
+  document.getElementById('cf-sort').addEventListener('change', (e) => {
+    ContractsState.filters.sort = e.target.value;
+    loadContractsList();
+  });
+
+  document.getElementById('cf-dir').addEventListener('change', (e) => {
+    ContractsState.filters.dir = e.target.value;
+    loadContractsList();
+  });
+
+  document.getElementById('cf-factory-ref').addEventListener('input', debounce(() => {
+    ContractsState.filters.factory_ref = document.getElementById('cf-factory-ref').value;
+    ContractsState.page = 1;
+    loadContractsList();
+  }, 350));
+
+  document.getElementById('cf-clear').addEventListener('click', () => {
+    const sort = ContractsState.filters.sort || 'approval_date';
+    const dir = ContractsState.filters.dir || 'desc';
+
+    ContractsState.filters = { sort, dir };
+    ContractsState.page = 1;
+
+    document.getElementById('cf-search').value = '';
+    document.getElementById('cf-sales').value = '';
+    document.getElementById('cf-emirate').value = '';
+    document.getElementById('cf-year').value = '';
+    document.getElementById('cf-month').value = '';
+    document.getElementById('cf-project-status').value = '';
+    document.getElementById('cf-cancel').value = '';
+    document.getElementById('cf-factory-ref').value = '';
+
+    loadContractsList();
+  });
+
   const addBtn = document.getElementById('cf-add');
   if (addBtn) addBtn.addEventListener('click', () => openContractModal(null));
   document.getElementById('cf-print').addEventListener('click', printContractsList);
@@ -140,7 +174,7 @@ function buildContractsListParams(page, pageSize) {
 // Read-only: performs GET requests only.
 async function printContractsList() {
   const btn = document.getElementById('cf-print');
-  if (btn) { btn.disabled = true; btn.textContent = 'Preparing…'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Preparing...'; }
   try {
     const PAGE = 500;                         // backend maximum page size
     let page = 1, total = 0, rows = [];
@@ -221,7 +255,7 @@ async function printContractsList() {
   } catch (e) {
     toast(e.message || 'Unable to prepare the Contracts List print', true);
   } finally {
-    if (btn) { btn.disabled = false; btn.innerHTML = '🖨 Print'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Print'; }
   }
 }
 
@@ -229,6 +263,34 @@ async function loadContractsList() {
   const params = buildContractsListParams(ContractsState.page, 50);
   const f = ContractsState.filters;
   const data = await API.get('/api/contracts?' + params.toString());
+
+  const activeFilterKeys = [
+    'search',
+    'sales_by',
+    'emirate',
+    'year',
+    'monthNum',
+    'project_status',
+    'cancellation_type',
+    'cancelled_only',
+    'factory_ref'
+  ];
+
+  const activeFilterCount = activeFilterKeys.filter(k => {
+    const v = ContractsState.filters[k];
+    return v !== undefined && v !== null && String(v).trim() !== '';
+  }).length;
+
+  const filterIndicator = document.getElementById('cf-active-indicator');
+
+  if (filterIndicator) {
+    filterIndicator.textContent = activeFilterCount
+      ? `${activeFilterCount} active filter${activeFilterCount === 1 ? '' : 's'}`
+      : '';
+
+    filterIndicator.classList.toggle('show', activeFilterCount > 0);
+  }
+
   // Sync export links with current sort + filters so Excel/PDF match screen
   const xlsxEl = document.getElementById('cf-export-xlsx');
   const pdfEl  = document.getElementById('cf-export-pdf');
@@ -270,7 +332,14 @@ async function loadContractsList() {
               ? `<span style="background:#e8f5e9;color:#1b5e20;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;white-space:nowrap">${esc(c.linked_factory_refs)}</span>`
               : `<span style="color:#bbb;font-size:11px">Not Linked</span>`
         }</td>
-        <td class="clickable maint-link-cell" data-id="${c.id}" title="${c.has_maintenance_link ? 'Linked to maintenance — click to manage' : 'Not linked — click to link'}" style="text-align:center;font-size:16px">${c.has_maintenance_link ? '🟢' : '🟡'}</td>
+       <td class="clickable maint-link-cell"
+    data-id="${c.id}"
+    title="${c.has_maintenance_link ? 'Linked to maintenance - click to manage' : 'Not linked - click to link'}"
+    style="text-align:center">
+  ${c.has_maintenance_link
+    ? '<span class="maint-link-dot linked" aria-label="Linked"></span>'
+    : '<span class="maint-link-dot unlinked" aria-label="Not linked"></span>'}
+</td>
       </tr>`).join('');
     tbody.querySelectorAll('.clickable:not(.maint-link-cell)').forEach(el => el.addEventListener('click', () => openContractModal(el.dataset.id)));
     tbody.querySelectorAll('.maint-link-cell').forEach(el => el.addEventListener('click', () => openContractModal(el.dataset.id, 'maintenance')));
@@ -279,7 +348,7 @@ async function loadContractsList() {
   const pag = document.getElementById('contracts-pagination');
   pag.innerHTML = `
     <button class="btn small secondary" ${ContractsState.page <= 1 ? 'disabled' : ''} id="cpg-prev">Prev</button>
-    <span>Page ${data.page} of ${totalPages} — ${data.total} total</span>
+    <span class="pagination-summary"><strong>${data.total}</strong> contract${data.total === 1 ? '' : 's'} &middot; Page ${data.page} of ${totalPages}</span>
     <button class="btn small secondary" ${ContractsState.page >= totalPages ? 'disabled' : ''} id="cpg-next">Next</button>
   `;
   const prevBtn = document.getElementById('cpg-prev'), nextBtn = document.getElementById('cpg-next');
